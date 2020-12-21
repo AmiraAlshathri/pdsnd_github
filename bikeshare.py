@@ -3,24 +3,27 @@ import datetime
 import pandas as pd
 import numpy as np
 
-CITY_DATA = { 'chicago': 'chicago.csv',
-              'new york': 'new_york_city.csv',
-              'washington': 'washington.csv' }
-months = ['january', 'february', 'march', 'april', 'may', 'june']   
-days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+CITY_DATA = {'chicago': 'chicago.csv',
+             'new york': 'new_york_city.csv',
+             'washington': 'washington.csv'}
+months = ['january', 'february', 'march', 'april', 'may', 'june']
+days = ['monday', 'tuesday', 'wednesday',
+        'thursday', 'friday', 'saturday', 'sunday']
+
 
 def get_filters():
     filter = ''
-    month, day = 'none', 'none'
+    month, day = 'all', 'all'
 
     print('Hello! Let\'s explore some US bikeshare data!')
 
     while True:
-        city = input ("\nWould you like to see data for Chicago, New York, or Washington? ").lower().strip()
+        city = input(
+            "\nWould you like to see data for Chicago, New York, or Washington? ").lower().strip()
         if city not in CITY_DATA.keys():
             print("\nPlease make sure to type the city correctly!")
         else:
-            break 
+            break
     print(f"\nLooks like you want to hear about {format(city)}")
 
     # Give all the choices in a series of print statements.
@@ -35,25 +38,27 @@ def get_filters():
         # Respond to the user's choice.
         if filter == '1':
             month = month_filter()
-            day = 'none'
-            print(f"\nWe will make sure to filter the data by {month.title()}! ")
+            day = 'all'
+            print(
+                f"\nWe will make sure to filter the data by {month.title()}! ")
             break
 
         elif filter == '2':
             day = day_filter()
-            month = 'none'
+            month = 'all'
             print(f"\nWe will make sure to filter the data by {day.title()}! ")
             break
 
         elif filter == '3':
             month = month_filter()
             day = day_filter()
-            print(f"\nWe will make sure to filter the data by both {month.title()} and {day.title()}! ")
+            print(
+                f"\nWe will make sure to filter the data by both {month.title()} and {day.title()}! ")
             break
 
         elif filter == '4':
-            month = 'none'
-            day = 'none'
+            month = 'all'
+            day = 'all'
             print("\nWe will not use any filter! ")
             break
 
@@ -65,59 +70,45 @@ def get_filters():
             print("\nI don't understand that choice, please try again.\n")
 
     print('-'*40)
-    #print(city,'-', month,'-',day)
-    return city, month, day    
+    return city, month, day
+
 
 def month_filter():
-    month = input("\nWhich month? January, February, March, April, May, or June? Please type out the full month name.. ").lower().strip()
+    month = input(
+        "\nWhich month? January, February, March, April, May, or June? Please type out the full month name.. ").lower().strip()
     while month not in months:
-        month = print("\nPlease make sure to type the month name correctly!")
+        month = print("\nPlease make sure to type the month name correctly! ")
     return month
 
+
 def day_filter():
-    day = input("\nWhich day? Please type out the full day name.. ").lower().strip()
+    day = input(
+        "\nWhich day? Please type out the full day name.. ").lower().strip()
     while day not in days:
-       day =  print("\nPlease make sure to type the day correctly!")
-    return day   
+        day = print("\nPlease make sure to type the day correctly!")
+    return day
+
 
 def load_data(city, month, day):
     df = pd.read_csv(CITY_DATA[city])
 
-    #Convert the Start Time column to datetime
+    # Convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
 
-    #Get month and day from Start Time and create month & day columns
+    # Get month and day from Start Time and create month & day columns
     df['month'] = df['Start Time'].dt.month
     df['day'] = df['Start Time'].dt.day
 
-    if month != 'none':
+    if month != 'all':
         month = months.index(month) + 1
         df = df[df['month'] == month]
 
-    if day != 'none':
+    if day != 'all':
         day = days.index(day) + 1
         df = df[df['day'] == day]
-        
+
     return df
 
-def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
-
-    print('\nCalculating The Most Popular Stations and Trip...\n')
-    start_time = time.time()
-
-    # TO DO: display most commonly used start station
-    print("\nMost Used Start Staion is The", df['Start Station'].mode()[0], "Station")
-
-    # TO DO: display most commonly used end station
-    print("\nMost Used End Staion is The", df['End Station'].mode()[0], "Station")
-
-    # TO DO: display most frequent combination of start station and end station trip
-    df['Route'] = df['Start Station'] + ' to ' + df['End Station']
-    print("\nMost Frequent Route used is from ", df['Route'].mode()[0])
-
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
@@ -127,18 +118,42 @@ def time_stats(df):
     start_time = time.time()
 
     # TO DO: display the most common month
-    print("\nMost Popular Month is ", months[df['month'].mode()[0]])
+    popular_month = df['month'].mode()[0]
+    print(f"\nMost Popular Month is {popular_month}")
 
     # TO DO: display the most common day of week
     print("\nMost Popular Day is", df['day'].mode()[0])
 
     # TO DO: display the most common start hour
     df['hour'] = df['Start Time'].dt.hour
-    common_hr = df['hour'].mode()[0]
-    print(f"\nMost Popular hour is {common_hr}. ")
+    popular_hr = df['hour'].mode()[0]
+    print(f"\nMost Popular hour is {popular_hr} ")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+
+
+def station_stats(df):
+    """Displays statistics on the most popular stations and trip."""
+
+    print('\nCalculating The Most Popular Stations and Trip...\n')
+    start_time = time.time()
+
+    # TO DO: display most commonly used start station
+    print("\nMost Used Start Staion is The",
+          df['Start Station'].mode()[0], "Station")
+
+    # TO DO: display most commonly used end station
+    print("\nMost Used End Staion is The",
+          df['End Station'].mode()[0], "Station")
+
+    # TO DO: display most frequent combination of start station and end station trip
+    df['Route'] = df['Start Station'] + ' to ' + df['End Station']
+    print("\nMost Frequent Route used is from ", df['Route'].mode()[0])
+
+    print("\nThis took %s seconds." % (time.time() - start_time))
+    print('-'*40)
+
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
@@ -148,16 +163,17 @@ def trip_duration_stats(df):
 
     # TO DO: display total travel time
     duration = df['Trip Duration'].sum()
-    dur_details = datetime.timedelta(seconds = duration.item())
+    dur_details = datetime.timedelta(seconds=duration.item())
     print(f"\nTotal Travel Time is {format (dur_details)} ")
 
     # TO DO: display mean travel time
     mean_dur = round(df['Trip Duration'].mean())
-    mean_details = datetime.timedelta(seconds = mean_dur)
+    mean_details = datetime.timedelta(seconds=mean_dur)
     print(f"\nAverage Travel Time is {format(mean_details)} ")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
@@ -170,9 +186,10 @@ def user_stats(df):
     # This Try block is to catch any errot if user choses a city thatn doesnt not the gender column
     if 'Gender' in df.columns:
         genders = df['Gender'].value_counts()
-        print(f"\nThe types of users by gender are given below:\n\n{format(genders)}")
+        print(
+            f"\nThe types of users by gender are given below: \n\n{format(genders)}")
     else:
-        print("\nGender information are not avilable for this city.")
+        print("\nGender information are not avilable for this city. ")
 
  # This Try block is to catch any errot if user choses a city thatn doesnt not the birth date column
     if 'Birth Year' in df.columns:
@@ -188,6 +205,7 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+
 def all_data(df):
     """
     Asks if the user would like to see some lines of data from the filtered dataset.
@@ -197,30 +215,35 @@ def all_data(df):
     start_row = 0
     end_row = 5
     row_num = 5
-    answer = input("\nWould you like to see some raw data from this dataset? (Y or N). ").lower().strip()
+    answer = input(
+        "\nWould you like to see some raw data from this dataset?(Y or N). ").lower().strip()
 
     while answer == "y":
         print("\nDisplaying rows {} to {}:".format(start_row + 1, end_row))
-        print("\n", df.iloc[start_row : end_row + 1])
+        print("\n", df.iloc[start_row: end_row + 1])
         start_row += row_num
         end_row += row_num
-        print('\n-------------------------------------------------------------------\n')
-        answer = input("Would you like to see the next {row_num} rows?(Y or N). ".lower().strip())
+        print('-'*40)
+        answer = input(
+            "Would you like to see the next {row_num} rows?(Y or N). ".lower().strip())
+
 
 def main():
     while True:
         city, month, day = get_filters()
-        print(city,month,day)
+        print(city, month, day)
         df = load_data(city, month, day)
-        #print(df.columns.values.tolist())
+        # print(df.columns.values.tolist())
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-        all_data(df)        
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        all_data(df)
+        restart = input(
+            '\nWould you like to restart? (Y or N). \n'.lower().strip())
+        if restart != 'y':
             break
+
 
 if __name__ == "__main__":
     main()

@@ -14,9 +14,13 @@ def get_filters():
     month, day = 'none', 'none'
 
     print('Hello! Let\'s explore some US bikeshare data!')
-    city = input ("\nWould you like to see data for Chicago, New York, or Washington? ").lower().strip()
-    while city not in CITY_DATA.keys():
-        print("\nPlease make sure to type the city correctly!")
+
+    while True:
+        city = input ("\nWould you like to see data for Chicago, New York, or Washington? ").lower().strip()
+        if city not in CITY_DATA.keys():
+            print("\nPlease make sure to type the city correctly!")
+        else:
+            break 
     print(f"\nLooks like you want to hear about {format(city)}")
 
     # Give all the choices in a series of print statements.
@@ -84,14 +88,16 @@ def load_data(city, month, day):
 
     #Get month and day from Start Time and create month & day columns
     df['month'] = df['Start Time'].dt.month
-    df['day'] = df['Start Time'].dt.day_name()
+    df['day'] = df['Start Time'].dt.day
 
     if month != 'none':
-        month = months.index(month)+1
+        month = months.index(month) + 1
         df = df[df['month'] == month]
 
     if day != 'none':
+        day = days.index(day) + 1
         df = df[df['day'] == day]
+        
     return df
 
 def station_stats(df):

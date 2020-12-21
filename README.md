@@ -36,7 +36,7 @@ we will need the three city dataset files too:
 
 ## Credits 👏🏼
 A hat tip to anyone whose code I was Inspired by:
-* [Udacity] (https://classroom.udacity.com/nanodegrees/nd104-mena-connect/parts/435cb8e0-77d0-4b60-9940-bc537b9463f6)
-* [StackOverflow] (https://stackoverflow.com/questions/tagged/python)
-* Geeks for Geeks (https://www.geeksforgeeks.org/python-programming-language/)
-* [Jaxenter.com] (https://jaxenter.com/tag/tutorial)
+* [Udacity](https://classroom.udacity.com/nanodegrees/nd104-mena-connect/parts/435cb8e0-77d0-4b60-9940-bc537b9463f6)
+* [StackOverflow](https://stackoverflow.com/questions/tagged/python)
+* [Geeks for Geeks](https://www.geeksforgeeks.org/python-programming-language/)
+* [Jaxenter.com](https://jaxenter.com/tag/tutorial)

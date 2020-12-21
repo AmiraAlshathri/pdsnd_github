@@ -33,6 +33,10 @@ we will need the three city dataset files too:
 * new_york_city.csv
 * washington.csv
 
+## Software Requirements:⚙️
+* Python 3, NumPy, and Pandas installed using Anaconda
+* A text editor, like VS Code or Atom.
+* A terminal application (Terminal on Mac and Linux or Cygwin on Windows).
 
 ## Credits 👏🏼
 A hat tip to anyone whose code I was Inspired by:
